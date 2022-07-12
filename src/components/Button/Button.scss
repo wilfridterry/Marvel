@@ -1,0 +1,78 @@
+@import '../../styles/variables.scss';
+
+.Button {
+    position: relative;
+    min-width: 101px;
+    text-align: center;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .3s transform;
+    &-Inner {
+        position: relative;
+        background-color: $mainColor;
+        line-height: 18px;
+        padding: 0 18px;
+        transition: none;
+        &::before {
+            border-color: $mainColor transparent;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            top: -10px;
+            transition: none;
+        }
+        &::after {
+            border-color: transparent $mainColor ;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            content: "";
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            transition: none;
+        }
+    }
+    &::before {
+        background-color: $mainColor;
+        content: '';
+        display: block;
+        height: 10px;
+        margin-left: 10px;
+        transition: none;
+    }
+    &::after {
+        background-color: $mainColor;
+        content: '';
+        display: block;
+        height: 10px;
+        margin-right: 10px;
+        transition: none;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.Button.Grey {
+    &-Inner {
+        background-color: $grey;
+        &::before {
+            border-color: $grey transparent;
+        }
+        &::after {
+            border-color: transparent $grey;
+        }
+    }
+    &::before, &::after {
+        background-color: $grey;
+    }
+}
