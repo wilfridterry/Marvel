@@ -63,7 +63,7 @@
 }
 
 .Button.Grey {
-    &-Inner {
+    .Button-Inner {
         background-color: $grey;
         &::before {
             border-color: $grey transparent;
