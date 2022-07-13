@@ -12,11 +12,10 @@ export default function RandomCharacter() {
                     <div className="RandomCharacter-Name">Thor</div>
                     <div className="RandomCharacter-Descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
                         Alias eligendi, quae doloremque accusamus possimus ducimus, dignissimos fugiat, 
-                        quibusdam delectus sunt officia numquam dolore soluta? Nesciunt 
-                        laboriosam recusandae doloremque incidunt sed!</div>
+                        quibusdam delectus sunt officia numquam dolore soluta...</div>
                     <div className="RandomCharacter-Btns">
                         <Button label="Homepage"/>
-                        <Button label="Wiki"/> 
+                        <Button label="Wiki" isGrey={true}/> 
                     </div>
                 </div> 
             </div>
@@ -28,7 +27,9 @@ export default function RandomCharacter() {
                 <div className="RandomCharacter-Title RandomCharacter-Subtitle">
                     Or choose another one
                 </div>
-                <Button label="Try it"/>
+                <div className="RandomCharacter-Btn">
+                    <Button label="Try it"/>
+                </div>
                 <img className="RandomCharacter-Decor" src={mjolnir} alt="Mjolnir" />
             </div>
         </div>

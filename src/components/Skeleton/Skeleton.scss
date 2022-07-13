@@ -1,0 +1,45 @@
+@import '../../styles/variables.scss';
+
+.Skeleton {
+    &-Header {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;         
+    }
+    &-Circle {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: #c4c4c4;
+        opacity: 0.4;
+    }
+    &-MiniRectangle {
+        width: 325px;
+        height: 16px;
+        background-color: #c4c4c4;
+        opacity: 0.4;
+    }
+    &-Rectangle {
+        width: 100%;
+        height: 35px;
+        margin-top: 15px;
+        background-color: #c4c4c4;
+        opacity: 0.4;
+    }
+}
+
+.PulseSkeleton {
+    animation: pulseSkeleton 1.5s ease-in-out .5s infinite;
+}
+
+@keyframes pulseSkeleton {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .4;
+    }
+    100% {
+        opacity: 1;
+    }
+}

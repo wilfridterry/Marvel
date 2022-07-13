@@ -47,4 +47,13 @@
         bottom: 15px;
         right: -37px;
     }
+    &-Btns {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    &-Btn {
+        margin-top: 10px;
+    }
 }

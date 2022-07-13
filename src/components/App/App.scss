@@ -3,6 +3,15 @@
     margin: 0 auto;
     display: grid;
     padding: 50px 0;
+    main {
+        position: relative;
+    }
+    &-Decor {
+        position: absolute;
+        bottom: -70px;
+        right: -174px;
+        z-index: -1;
+    }
 }
 
 

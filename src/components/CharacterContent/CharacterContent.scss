@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+.CharacterContent {
+    display: grid;
+    grid-template-columns: 650px 425px;
+    column-gap: 25px;
+    margin-top: 50px;
+}
+
+// @media (max-width: 1100px) {
+//     .CharacterContent {
+//         grid-template-columns: minmax(650px);
+//         grid-template-rows: repeat(2, minmax(500px));
+//     }
+// }
