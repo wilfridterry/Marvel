@@ -62,7 +62,15 @@
     }
 }
 
+.Button.Long {
+    min-width: 170px;
+}
+
 .Button.Grey {
+    &.Long {
+        min-width: 170px;
+    }
+    
     .Button-Inner {
         background-color: $grey;
         &::before {

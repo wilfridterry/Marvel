@@ -1,0 +1,25 @@
+.ComicsItem {
+    transition: .3s all;
+    img {
+        width: 225px;
+        height: 345px;
+        object-fit: cover;
+    }
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+    &-Title {
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 18px;
+    }
+    &-Price {
+        margin-top: 5px;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 18px;
+        color: rgba($color: #000000, $alpha: .6)
+    }
+}

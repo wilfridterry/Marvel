@@ -39,7 +39,9 @@ export default function CharacterInfo() {
             <div className="CharacterInfo-Select">
                 Please select a character to see information
             </div>
-            <Skeleton />
+            <div className="CharacterInfo-Skeleton">
+                <Skeleton />
+            </div>
         </div>
     );
 }

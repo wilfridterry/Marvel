@@ -13,7 +13,7 @@ export default function CharacterList() {
                 {items} 
             </div>
             <div className="CharacterList-Btn">
-                <Button label="Load more"/> 
+                <Button label="Load more" isLong={true}/> 
             </div>        
         </div>
     );

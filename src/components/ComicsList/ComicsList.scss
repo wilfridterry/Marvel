@@ -1,0 +1,14 @@
+.ComicsList {
+    margin-top: 45px;
+    &-Grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 225px);
+        justify-content: space-between;
+        row-gap: 55px;
+    }
+    &-Btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+}

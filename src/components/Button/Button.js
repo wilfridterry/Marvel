@@ -1,9 +1,10 @@
 import './Button.scss';
 
-export default function Button({label, isGrey}) {
+export default function Button({label, isGrey, isLong}) {
 
     let className = 'Button';
     className += isGrey ? ' Grey' : '';
+    className += isLong ? ' Long' : '';
 
     return (
         <button className={className}>
