@@ -15,19 +15,19 @@ export default class App extends Component {
             <div className="App">
                 <Header />
                 <main>
-                   {/* <div class="characters">
+                   <div className="characters">
                         <RandomCharacter />
                         <CharacterContent />
-                        <img src={vision} alt="Vision" className="App-Decor" />
-                   </div> */}
+                        {/* <img src={vision} alt="Vision" className="App-Decor" /> */}
+                   </div>
                    {/* <div className="comics">
                         <Banner />
                         <ComicsList />
                    </div> */}
-                   <div className="single-comics">
+                   {/* <div className="single-comics">
                         <Banner />
                         <SingleComics />
-                   </div>
+                   </div> */}
                 </main>
             </div>
         );
