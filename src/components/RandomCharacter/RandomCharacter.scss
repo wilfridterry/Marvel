@@ -15,6 +15,11 @@
             object-fit: cover;
         }
     }
+    &-Info {
+       display: grid;
+       grid-template-rows: minmax(29px, auto) 90px 38px;
+       row-gap: 10px;
+    }
     &-Name {
         font-weight: bold;
         font-size: 22px;
@@ -22,7 +27,6 @@
         text-transform: uppercase;
     }
     &-Descr {
-        margin-top: 10px;
         font-size: 14px;
         line-height: 18px;
     }
@@ -50,7 +54,6 @@
         display: flex;
         gap: 30px;
         flex-wrap: wrap;
-        margin-top: 10px;
     }
     &-Btn {
         margin-top: 10px;

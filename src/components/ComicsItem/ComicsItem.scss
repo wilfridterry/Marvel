@@ -22,4 +22,7 @@
         line-height: 18px;
         color: rgba($color: #000000, $alpha: .6)
     }
+    &:hover {
+        transform: translateY(-5px);
+    }
 }
