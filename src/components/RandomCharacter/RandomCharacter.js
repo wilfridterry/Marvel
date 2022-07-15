@@ -4,11 +4,15 @@ import mjolnir from '../../resources/img/mjolnir.png';
 import Button from '../Button/Button';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
+import Spinner from '../Spinner/Spinner';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export default class RandomCharacter extends Component {
      
     state = {
-        character: {}
+        character: {},
+        loading: true,
+        error: false
     };
 
     #marvelService = new MarvelService();
@@ -17,8 +21,12 @@ export default class RandomCharacter extends Component {
         this.updateChar();
     }
 
-    onCharLoaded = (character) => {
-        this.setState({character})
+    handleCharLoaded = (character) => {
+        this.setState({character, loading: false});
+    }
+
+    handleError = () => {
+        this.setState({loading: false, error: true});
     }
 
     updateChar = () => {
@@ -26,33 +34,22 @@ export default class RandomCharacter extends Component {
 
         this.#marvelService
             .getCharacter(id)
-            .then(this.onCharLoaded);
+            .then(this.handleCharLoaded)
+            .catch(this.handleError);
     }
 
     render() {
-        const {
-            character: {
-                name, 
-                description, 
-                thumbnail, 
-                homepage, 
-                wiki 
-            }
-        } = this.state;
+        const {character, loading, error} = this.state;
 
+        const errorMessage = error ? <ErrorMessage /> : null;
+        const spinner = loading ? <Spinner /> : null;
+        const content = !(loading || error) ? <View character={character}/> : null;
+        
         return (
             <div className="RandomCharacter">
-                <div className="RandomCharacter-Block">
-                    <img src={thumbnail} alt={name} className="RandomCharacter-Image" />
-                    <div className="RandomCharacter-Info">
-                        <div className="RandomCharacter-Name">{name}</div>
-                        <div className="RandomCharacter-Descr">{description}</div>
-                        <div className="RandomCharacter-Btns">
-                            <Button label="Homepage" href={homepage}/>
-                            <Button label="Wiki" isGrey={true} href={wiki}/> 
-                        </div>
-                    </div> 
-                </div>
+                {errorMessage}
+                {spinner}
+                {content}
                 <div className="RandomCharacter-Static">
                     <div className="RandomCharacter-Title">
                         Random character for today! <br/>
@@ -69,4 +66,28 @@ export default class RandomCharacter extends Component {
             </div>
         );
     }
+}
+
+const View = ({character}) => {
+    const {
+        name, 
+        description, 
+        thumbnail, 
+        homepage, 
+        wiki 
+    } = character;
+
+    return (
+        <div className="RandomCharacter-Block">
+            <img src={thumbnail} alt={name} className="RandomCharacter-Image" />
+            <div className="RandomCharacter-Info">
+                <div className="RandomCharacter-Name">{name}</div>
+                <div className="RandomCharacter-Descr">{description}</div>
+                <div className="RandomCharacter-Btns">
+                    <Button label="Homepage" href={homepage}/>
+                    <Button label="Wiki" isGrey={true} href={wiki}/> 
+                </div>
+            </div> 
+        </div>
+    );
 }

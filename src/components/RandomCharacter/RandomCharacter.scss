@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: minmax(260px);
+
     box-shadow: 5px 5px 20px rgba(0, 0, 0, .25);
     &-Block {
         display: flex;
@@ -57,5 +58,8 @@
     }
     &-Btn {
         margin-top: 10px;
+    }
+    svg {
+        justify-self: center;
     }
 }
