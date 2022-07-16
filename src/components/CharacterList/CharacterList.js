@@ -2,12 +2,14 @@ import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Button from '../Button/Button';
 import CharacterItem from '../CharacterItem/CharacterItem';
+import Spinner from '../Spinner/Spinner';
 import './CharacterList.scss';
 
 class CharacterList extends Component {
     state = {
         characters: [],
-        error: false
+        error: false,
+        loading: true
     }
 
     #marvelService = new MarvelService();
@@ -23,20 +25,29 @@ class CharacterList extends Component {
     }
     
     handleLoaded = (characters) => {
-        this.setState({characters});
+        this.setState({characters: characters, loading: false});
     }
 
     
     render() {
-        const items = this.state.characters.map((item, index) => {
+        const {characters, loading} = this.state;
+
+        const items = characters.map((item, index) => {
             return <CharacterItem key={item.id} charcater={item}/>;
         });
 
+        const list = (<div className="CharacterList-Grid">
+                        {items} 
+                    </div>);
+
+        const spinner = loading ? <Spinner /> : null;
+
+        const content = !loading ? list : null;
+
         return (
             <div className="CharacterList">
-                <div className="CharacterList-Grid">
-                    {items} 
-                </div>
+                    {spinner}
+                    {content}
                 <div className="CharacterList-Btn">
                     <Button label="Load more" isLong={true}/> 
                 </div>        

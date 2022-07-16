@@ -11,7 +11,8 @@ export default class RandomCharacter extends Component {
     state = {
         character: {},
         loading: true,
-        error: false
+        error: false,
+        imageNotAvailable: false
     };
 
     #marvelService = new MarvelService();
@@ -42,12 +43,24 @@ export default class RandomCharacter extends Component {
         this.updateChar();
     }
 
+    onLoadImage = (e) => {
+        const img = e.currentTarget;
+        
+        if (img.src.search('image_not_available') !== -1) {
+            this.setState({imageNotAvailable: true});
+        }
+    }
+
     render() {
-        const {character, loading, error} = this.state;
+        const {character, loading, error, imageNotAvailable} = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? <View character={character}/> : null;
+        const content = !(loading || error) ? <View 
+                character={character} 
+                onLoadImage={this.onLoadImage}
+                imageNotAvailable={imageNotAvailable}   
+                /> : null;
         
         return (
             <div className="RandomCharacter">
@@ -65,14 +78,18 @@ export default class RandomCharacter extends Component {
                     <div className="RandomCharacter-Btn">
                         <Button onClick={this.handleClick} label="Try it"/>
                     </div>
-                    <img className="RandomCharacter-Decor" src={mjolnir} alt="Mjolnir" />
+                    <img 
+                        className="RandomCharacter-Decor" 
+                        src={mjolnir} 
+                        alt="Mjolnir" 
+                        />
                 </div>
             </div>
         );
     }
 }
 
-const View = ({character}) => {
+const View = ({character, onLoadImage, imageNotAvailable}) => {
     const {
         name, 
         description, 
@@ -83,7 +100,13 @@ const View = ({character}) => {
 
     return (
         <div className="RandomCharacter-Block">
-            <img src={thumbnail} alt={name} className="RandomCharacter-Image" />
+            <img 
+                src={thumbnail} 
+                alt={name} 
+                className="RandomCharacter-Image"
+                onLoad={onLoadImage}
+                style={{objectFit: imageNotAvailable ? 'contain' : 'cover'}}  
+                 />
             <div className="RandomCharacter-Info">
                 <div className="RandomCharacter-Name">{name}</div>
                 <div className="RandomCharacter-Descr">{description}</div>
