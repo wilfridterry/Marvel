@@ -1,4 +1,3 @@
-import thor from '../../resources/img/thor.jpeg';
 import './RandomCharacter.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import Button from '../Button/Button';
@@ -38,6 +37,11 @@ export default class RandomCharacter extends Component {
             .catch(this.handleError);
     }
 
+    handleClick = () => {
+        this.setState({loading: true})
+        this.updateChar();
+    }
+
     render() {
         const {character, loading, error} = this.state;
 
@@ -59,7 +63,7 @@ export default class RandomCharacter extends Component {
                         Or choose another one
                     </div>
                     <div className="RandomCharacter-Btn">
-                        <Button label="Try it"/>
+                        <Button onClick={this.handleClick} label="Try it"/>
                     </div>
                     <img className="RandomCharacter-Decor" src={mjolnir} alt="Mjolnir" />
                 </div>

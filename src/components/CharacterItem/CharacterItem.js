@@ -1,14 +1,12 @@
 import './CharacterItem.scss';
-import abyss from '../../resources/img/abyss.jpg';
 
-export default function CharacterItem({isSelected}) {
-    let className = 'CharacterItem';
-    className += isSelected ? ' CharacterItem-Selected' : '';
+export default function CharacterItem({charcater}) {
+    const {id, thumbnail, name} = charcater;
 
     return (
-        <div className={className}>
-            <img src={abyss} alt="Abyss" />
-            <div className="CharacterItem-Name">Abyss</div>
-        </div>
+        <a className={'CharacterItem'}>
+            <img src={thumbnail} alt={name} />
+            <div className="CharacterItem-Name">{name}</div>
+        </a>
     );
 }
