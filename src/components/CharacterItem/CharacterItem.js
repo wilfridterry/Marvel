@@ -1,3 +1,4 @@
+import CharacterImage from '../CharacterImage/CharacterImage';
 import './CharacterItem.scss';
 
 export default function CharacterItem({charcater}) {
@@ -5,7 +6,7 @@ export default function CharacterItem({charcater}) {
 
     return (
         <a className={'CharacterItem'}>
-            <img src={thumbnail} alt={name} />
+            <CharacterImage thumbnail={thumbnail} name={name} />
             <div className="CharacterItem-Name">{name}</div>
         </a>
     );

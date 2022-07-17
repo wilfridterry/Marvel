@@ -5,6 +5,7 @@ import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../Spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import CharacterImage from '../CharacterImage/CharacterImage';
 
 export default class RandomCharacter extends Component {
      
@@ -12,7 +13,6 @@ export default class RandomCharacter extends Component {
         character: {},
         loading: true,
         error: false,
-        imageNotAvailable: false
     };
 
     #marvelService = new MarvelService();
@@ -41,14 +41,6 @@ export default class RandomCharacter extends Component {
     handleClick = () => {
         this.setState({loading: true})
         this.updateChar();
-    }
-
-    onLoadImage = (e) => {
-        const img = e.currentTarget;
-        
-        if (img.src.search('image_not_available') !== -1) {
-            this.setState({imageNotAvailable: true});
-        }
     }
 
     render() {
@@ -100,13 +92,11 @@ const View = ({character, onLoadImage, imageNotAvailable}) => {
 
     return (
         <div className="RandomCharacter-Block">
-            <img 
-                src={thumbnail} 
-                alt={name} 
+            <CharacterImage 
+                thumbnail={thumbnail} 
+                name={name} 
                 className="RandomCharacter-Image"
-                onLoad={onLoadImage}
-                style={{objectFit: imageNotAvailable ? 'contain' : 'cover'}}  
-                 />
+            />
             <div className="RandomCharacter-Info">
                 <div className="RandomCharacter-Name">{name}</div>
                 <div className="RandomCharacter-Descr">{description}</div>
