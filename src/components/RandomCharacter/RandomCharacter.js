@@ -31,6 +31,8 @@ export default class RandomCharacter extends Component {
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        
+        this.setState({loading: true})
 
         this.#marvelService
             .getCharacter(id)
@@ -39,20 +41,15 @@ export default class RandomCharacter extends Component {
     }
 
     handleClick = () => {
-        this.setState({loading: true})
         this.updateChar();
     }
 
     render() {
-        const {character, loading, error, imageNotAvailable} = this.state;
+        const {character, loading, error} = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? <View 
-                character={character} 
-                onLoadImage={this.onLoadImage}
-                imageNotAvailable={imageNotAvailable}   
-                /> : null;
+        const content = !(loading || error) ? <View character={character}/> : null;
         
         return (
             <div className="RandomCharacter">
@@ -81,7 +78,7 @@ export default class RandomCharacter extends Component {
     }
 }
 
-const View = ({character, onLoadImage, imageNotAvailable}) => {
+const View = ({character, onLoadImage}) => {
     const {
         name, 
         description, 

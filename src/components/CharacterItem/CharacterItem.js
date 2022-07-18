@@ -1,13 +1,13 @@
 import CharacterImage from '../CharacterImage/CharacterImage';
 import './CharacterItem.scss';
 
-export default function CharacterItem({charcater}) {
-    const {id, thumbnail, name} = charcater;
+export default function CharacterItem({charcater, onClick}) {
+    const {thumbnail, name} = charcater;
 
     return (
-        <a className={'CharacterItem'}>
+        <div className={'CharacterItem'} onClick={onClick}>
             <CharacterImage thumbnail={thumbnail} name={name} />
             <div className="CharacterItem-Name">{name}</div>
-        </a>
+        </div>
     );
 }

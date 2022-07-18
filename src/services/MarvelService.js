@@ -49,7 +49,8 @@ class MarvelService {
             description: character.description,
             thumbnail: thumbnail,
             homepage: homepage,
-            wiki: wiki
+            wiki: wiki,
+            comics: character.comics.items
         };
     }
 }

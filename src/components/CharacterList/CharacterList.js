@@ -33,7 +33,11 @@ class CharacterList extends Component {
         const {characters, loading} = this.state;
 
         const items = characters.map((item, index) => {
-            return <CharacterItem key={item.id} charcater={item}/>;
+            return <CharacterItem 
+                        key={item.id} 
+                        charcater={item}
+                        onClick={() => this.props.onCharacterSelected(item.id)}
+                        />;
         });
 
         const list = (<div className="CharacterList-Grid">
