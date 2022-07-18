@@ -2,12 +2,17 @@ import './CharacterContent.scss';
 import CharacterList from '../CharacterList/CharacterList';
 import CharacterInfo from '../CharacterInfo/CharacterInfo';
 import { Component } from 'react';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 class CharacterContent  extends Component {
     
     state = {
         selectedCharacter: null
     }
+
+    // static getDerivedStateFromError(error) {
+    //     return {error: true};
+    // }
 
     handleCharacterSelected = (id) => {
         this.setState({
@@ -18,8 +23,13 @@ class CharacterContent  extends Component {
     render() {
         return (
             <div className="CharacterContent">
-                <CharacterList onCharacterSelected={this.handleCharacterSelected}/>
-                <CharacterInfo characterId={this.state.selectedCharacter}/>
+                <ErrorBoundary>
+                    <CharacterList onCharacterSelected={this.handleCharacterSelected}/>
+                </ErrorBoundary>
+
+                <ErrorBoundary>
+                    <CharacterInfo characterId={this.state.selectedCharacter}/>
+                </ErrorBoundary>
             </div>
         );
     }

@@ -18,16 +18,30 @@ class CharacterList extends Component {
         this.updateCharacters();
     }    
     
-    updateCharacters() {
+    updateCharacters(offset = 0) {
+
+        this.setState({loading: true});
+
         this.#marvelService
-            .getAllCharacters()
+            .getAllCharacters(9, offset)
             .then(this.handleLoaded);
     }
     
     handleLoaded = (characters) => {
-        this.setState({characters: characters, loading: false});
+        console.log(characters);
+        this.setState(state => {
+            const newCharacters = state.characters.slice();
+
+            return {
+                characters: newCharacters.concat(characters), 
+                loading: false
+            };
+        });
     }
 
+    handleLoadMore = () => {
+        this.updateCharacters(this.state.characters.length)
+    }
     
     render() {
         const {characters, loading} = this.state;
@@ -50,10 +64,14 @@ class CharacterList extends Component {
 
         return (
             <div className="CharacterList">
-                    {spinner}
                     {content}
+                    {spinner}
                 <div className="CharacterList-Btn">
-                    <Button label="Load more" isLong={true}/> 
+                    <Button 
+                        label="Load more" 
+                        isLong={true} 
+                        onClick={this.handleLoadMore}
+                    /> 
                 </div>        
             </div>
         );

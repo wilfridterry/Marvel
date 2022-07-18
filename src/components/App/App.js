@@ -7,6 +7,7 @@ import vision from '../../resources/img/vision.png';
 import Banner from '../Banner/Banner';
 import ComicsList from '../ComicsList/ComicsList';
 import SingleComics from '../SingleComics/SingleComics';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 export default class App extends Component {
 
@@ -16,7 +17,9 @@ export default class App extends Component {
                 <Header />
                 <main>
                    <div className="characters">
-                        <RandomCharacter />
+                        <ErrorBoundary>
+                            <RandomCharacter /> 
+                        </ErrorBoundary>
                         <CharacterContent />
                         {/* <img src={vision} alt="Vision" className="App-Decor" /> */}
                    </div>

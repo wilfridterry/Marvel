@@ -7,7 +7,6 @@ import Skeleton from '../Skeleton/Skeleton';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import CharacterImage from '../CharacterImage/CharacterImage';
-
 class CharacterInfo extends Component {
 
     state = {
@@ -26,6 +25,10 @@ class CharacterInfo extends Component {
         if (this.props.characterId !== prevProps.characterId) {
             this.updateChar();
         }
+    }
+
+    componentDidCatch(err, info) {
+        this.setState({error: true});
     }
 
     updateChar = () => {
@@ -84,7 +87,7 @@ const View = ({character}) => {
 
     let comicsList = comics.slice(10);
     comicsList = comicsList.map((item, index) => {
-        return (<div className="CharacterInfo-ComicsItem" key={item.id}>
+        return (<div className="CharacterInfo-ComicsItem" key={index}>
                     {item.name}
                 </div>);
     });
@@ -107,7 +110,7 @@ const View = ({character}) => {
                 </div>
             </div>
             <div className="CharacterInfo-Descr">
-                {description === null ? null :  'There is no description'}
+                {!description ? 'There is no description' : null}
                 {description}
             </div>
             <div className="CharacterInfo-Comics">Comics: </div>
