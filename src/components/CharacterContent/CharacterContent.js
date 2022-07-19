@@ -35,4 +35,5 @@ class CharacterContent  extends Component {
     }
 }
 
+
 export default CharacterContent;

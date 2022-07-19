@@ -1,5 +1,4 @@
-import './CharacterInfo.scss';
-
+import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Button from '../Button/Button';
@@ -7,6 +6,9 @@ import Skeleton from '../Skeleton/Skeleton';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import CharacterImage from '../CharacterImage/CharacterImage';
+
+import './CharacterInfo.scss';
+
 class CharacterInfo extends Component {
 
     state = {
@@ -121,5 +123,9 @@ const View = ({character}) => {
         </>
     );
 } 
+
+CharacterInfo.propTypes = {
+    characterId: PropTypes.number
+}
 
 export default CharacterInfo;

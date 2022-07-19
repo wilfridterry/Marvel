@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Button from '../Button/Button';
@@ -114,5 +115,8 @@ class CharacterList extends Component {
     }
 }
 
+CharacterList.propTypes = {
+    onCharacterSelected: PropTypes.func
+}
 
 export default CharacterList;
