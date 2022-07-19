@@ -66,6 +66,10 @@
 .Button.Long {
     min-width: 170px;
 }
+.Button.Disabled {
+    pointer-events: none;
+    filter: grayscale(.5);
+}
 
 .Button.Grey {
     &.Long {

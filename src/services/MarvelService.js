@@ -1,13 +1,9 @@
 
 class MarvelService {
 
-    #url;
-    #apiKey;
-
-    constructor() {
-        this.#url = 'https://gateway.marvel.com:443/v1/public';
-        this.#apiKey = 'e7b055acb3b5ad1f6af031bcb628d4b0'
-    }
+    #url = 'https://gateway.marvel.com:443/v1/public';
+    #apiKey = 'e7b055acb3b5ad1f6af031bcb628d4b0';
+    #characterOffset = 210;
 
     getResource = async (url) => {
         let res = await fetch(url);
@@ -19,7 +15,7 @@ class MarvelService {
         return await res.json();
     }
     
-    getAllCharacters = async (limit = 9, offset = 0) => {
+    getAllCharacters = async (limit = 9, offset = this.#characterOffset) => {
         const res = await this.getResource(
                 `${this.#url}/characters?limit=${limit}&offset=${offset}&apikey=${this.#apiKey}`
             );
@@ -46,7 +42,9 @@ class MarvelService {
         return {
             id: character.id,
             name: character.name,
-            description: character.description,
+            description: character.description 
+                        ? `${character.description.slice(0, 210)}...` 
+                        : 'There is no description for this character',
             thumbnail: thumbnail,
             homepage: homepage,
             wiki: wiki,
