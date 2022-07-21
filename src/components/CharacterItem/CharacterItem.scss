@@ -18,8 +18,13 @@
         text-transform: uppercase;
         color: #fff;
     }
+    // &:focus {
+    //     box-shadow: 0 5px 20px $mainColor;
+    //     transform: translateY(-8px);
+    // }
 }
 
 .CharacterItem.CharacterItem-Selected {
     box-shadow: 0 5px 20px $mainColor;
+    transform: translateY(-8px);
 }

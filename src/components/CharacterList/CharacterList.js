@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Button from '../Button/Button';
 import CharacterItem from '../CharacterItem/CharacterItem';
@@ -21,9 +21,16 @@ class CharacterList extends Component {
 
     #marvelService = new MarvelService();
 
+    constructor(props) {
+        super(props);
+
+        this.characterRefs = React.createRef();
+        this.characterRefs.current = [];
+    }
+
     componentDidMount() {
         this.updateCharacters();
-
+        
         // window.addEventListener('scroll', this.handleScroll);        
     }    
     
@@ -76,14 +83,33 @@ class CharacterList extends Component {
         this.setState({error: false});
     }
 
+    focusOnItem = (id) => {
+        this.characterRefs.current.forEach(item => {
+            item.classList.remove('CharacterItem-Selected')
+        });
+        this.characterRefs.current[id].classList.add('CharacterItem-Selected');
+        this.characterRefs.current[id].focus();
+    }
+
     render() {
         const {characters, loading, newItemLoading, error, ended} = this.state;
 
         const items = characters.map((item, index) => {
             return <CharacterItem 
+                        tabIndex={0}
                         key={item.id} 
                         charcater={item}
-                        onClick={() => this.props.onCharacterSelected(item.id)}
+                        onClick={() => {
+                            this.props.onCharacterSelected(item.id);
+                            this.focusOnItem(index);
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === ' ' || e.key === 'Enter') {
+                                this.props.onCharacterSelected(item.id);
+                                this.focusOnItem(index);
+                            }
+                        }}
+                        refChar={el => {this.characterRefs.current[index] = el}}
                         />;
         });
 
