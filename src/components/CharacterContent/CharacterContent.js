@@ -8,8 +8,8 @@ const CharacterContent = () => {
     
     const [selectedCharacter, setCharacter] = useState(null);
 
-    const handleCharacterSelected = (id) => {
-        setCharacter(id);
+    const handleCharacterSelected = (character) => {
+        setCharacter(character);
     }
 
     return (
@@ -19,7 +19,7 @@ const CharacterContent = () => {
             </ErrorBoundary>
 
             <ErrorBoundary>
-                <CharacterInfo characterId={selectedCharacter}/>
+                <CharacterInfo character={selectedCharacter}/>
             </ErrorBoundary>
         </div>
     );

@@ -1,62 +1,35 @@
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Button from '../Button/Button';
 import Skeleton from '../Skeleton/Skeleton';
-import { Component, useEffect, useState } from 'react';
-import MarvelService from '../../services/MarvelService';
+import { useEffect, useState } from 'react';
 import CharacterImage from '../CharacterImage/CharacterImage';
 
 import './CharacterInfo.scss';
 
 const CharacterInfo = (props) => {
 
-    const [character, setCharacter] = useState(null);
+    const character = props.character;
+    
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-
-    const marvelService = new MarvelService();
     
     useEffect(() => {
-        updateChar()
-    }, [props.characterId]);
-    
-
-    const updateChar = () => {
-        const {characterId} = props;
-
-        if (!characterId) {
+        if (!character) {
             return;
         }
 
         setLoading(true);
+        setTimeout(() => setLoading(false), 500);
+    }, [character]);
 
-        marvelService
-            .getCharacter(characterId)
-            .then(handleCharLoaded)
-            .catch(handleError);
-    }
-
-    const handleCharLoaded = (character) => {
-        setCharacter(character);
-        setLoading(false);
-    }
-
-    const handleError = () => {
-        setLoading(false);
-        setError(true);
-    }
-
-    const skeleton = character || loading || error ? null : <Skeleton/>; 
-    const errorMessage = error ? <ErrorMessage /> : null;
+    const skeleton = character || loading ? null : <Skeleton/>; 
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !character) ? <View character={character}/> : null;
+    const content = !(loading || !character) ? <View character={character}/> : null;
 
     return (
         <div>
             <div className="CharacterInfo">
                 {skeleton}
-                {errorMessage}
                 {spinner}
                 {content}
             </div>
@@ -105,7 +78,7 @@ const View = ({character}) => {
 } 
 
 CharacterInfo.propTypes = {
-    characterId: PropTypes.number
+    characterId: PropTypes.object
 }
 
 export default CharacterInfo;

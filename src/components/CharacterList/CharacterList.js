@@ -72,7 +72,7 @@ const CharacterList = (props) => {
                     key={item.id} 
                     charcater={item}
                     onClick={() => {
-                        props.onCharacterSelected(item.id);
+                        props.onCharacterSelected(item);
                         focusOnItem(index);
                     }}
                     onKeyPress={(e) => {
