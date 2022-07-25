@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import MarvelService from '../../services/MarvelService';
 import Button from '../Button/Button';
 import CharacterItem from '../CharacterItem/CharacterItem';
@@ -7,138 +7,110 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Spinner from '../Spinner/Spinner';
 import './CharacterList.scss';
 
-class CharacterList extends Component {
+const CharacterList = (props) => {
 
-    offset = 210;
+    const [characters, setCharacters] = useState([]);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [ended, setEnded] = useState(false);
+    const [offset, setOffset] = useState(210);
 
-    state = {
-        characters: [],
-        error: false,
-        loading: true,
-        newItemLoading: false,
-        ended: false
-    }
+    const marvelService = new MarvelService();
 
-    #marvelService = new MarvelService();
+    useEffect(() => {
+        updateCharacters();       
+    }, []);   
 
-    constructor(props) {
-        super(props);
 
-        this.characterRefs = React.createRef();
-        this.characterRefs.current = [];
-    }
+    const updateCharacters = (offset) => {
 
-    componentDidMount() {
-        this.updateCharacters();
-        
-        // window.addEventListener('scroll', this.handleScroll);        
-    }    
-    
-    componentWillUnmount() {
-        // window.removeEventListener('scroll', this.handleScroll);
-    }
+        handleLoading();
 
-    // handleScroll = (e) => {
-    //     const height = Math.floor(document.documentElement.scrollHeight 
-    //             - document.documentElement.clientHeight);
-        
-    //     if (Math.floor(window.scrollY + 50) > height) {
-    //         this.handleLoadMore();
-    //     }
-    // }
-
-    updateCharacters(offset) {
-
-        this.handleLoading();
-        this.#marvelService
-            .getAllCharacters(9, offset)
-            .then(this.handleLoaded)
-            .catch(this.handleError);
+        marvelService.getAllCharacters(9, offset)
+            .then(handleLoaded)
+            .catch(handleError);
     }
     
-    handleLoading = () => {
-        this.setState({newItemLoading: true});
+    const handleLoading = () => {
+        setNewItemLoading(true);
     }
 
-    handleLoaded = (characters) => {
+    const handleLoaded = (characters) => {
         
         const ended = characters.length < 9 ? true : false;
-        this.setState(state => {
-            return {
-                characters: [...state.characters, ...characters], 
-                loading: false,
-                newItemLoading: false,
-                ended: ended
-            };
-        });
+
+        setCharacters(oldCharacters => [...oldCharacters, ...characters]);
+        setLoading(false);
+        setNewItemLoading(false);
+        setEnded(ended);
+        setOffset(offset => offset + 9);
     }
 
-    handleLoadMore = () => {
-        this.offset += 9;
-
-        this.updateCharacters(this.offset)
+    const handleLoadMore = () => {
+        updateCharacters(offset);
     }
     
-    handleError = () => {
-        this.setState({error: false});
+    const handleError = () => {
+        setError(true);
+        setLoading(false);
     }
 
-    focusOnItem = (id) => {
-        this.characterRefs.current.forEach(item => {
+    const characterRefs = useRef([]);
+
+    const focusOnItem = (id) => {
+        characterRefs.current.forEach(item => {
             item.classList.remove('CharacterItem-Selected')
         });
-        this.characterRefs.current[id].classList.add('CharacterItem-Selected');
-        this.characterRefs.current[id].focus();
+        characterRefs.current[id].classList.add('CharacterItem-Selected');
+        characterRefs.current[id].focus();
     }
 
-    render() {
-        const {characters, loading, newItemLoading, error, ended} = this.state;
+    const items = characters.map((item, index) => {
+        return <CharacterItem 
+                    tabIndex={0}
+                    key={item.id} 
+                    charcater={item}
+                    onClick={() => {
+                        props.onCharacterSelected(item.id);
+                        focusOnItem(index);
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                            props.onCharacterSelected(item.id);
+                            focusOnItem(index);
+                        }
+                    }}
+                    refChar={el => {characterRefs.current[index] = el}}
+                    />;
+    });
 
-        const items = characters.map((item, index) => {
-            return <CharacterItem 
-                        tabIndex={0}
-                        key={item.id} 
-                        charcater={item}
-                        onClick={() => {
-                            this.props.onCharacterSelected(item.id);
-                            this.focusOnItem(index);
-                        }}
-                        onKeyPress={(e) => {
-                            if (e.key === ' ' || e.key === 'Enter') {
-                                this.props.onCharacterSelected(item.id);
-                                this.focusOnItem(index);
-                            }
-                        }}
-                        refChar={el => {this.characterRefs.current[index] = el}}
-                        />;
-        });
+    const list = (<div className="CharacterList-Grid">
+                    {items} 
+                </div>);
 
-        const list = (<div className="CharacterList-Grid">
-                        {items} 
-                    </div>);
+    const spinner = loading ? <Spinner /> : null;
 
-        const spinner = loading ? <Spinner /> : null;
+    const content = !loading ? list : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
 
-        const content = !loading ? list : null;
-        const errorMessage = error ? <ErrorMessage /> : null;
-
-        return (
-            <div className="CharacterList">
-                    {content}
-                    {spinner}
-                    {errorMessage}
-                <div className="CharacterList-Btn">
-                    <Button 
-                        label="Load more" 
-                        isLong={true} 
-                        onClick={this.handleLoadMore}
-                        disabled={newItemLoading}
-                        style={{display: ended ? 'none' : 'block'}}
-                    /> 
-                </div>        
-            </div>
-        );
-    }
+    return (
+        <div className="CharacterList">
+                {content}
+                {spinner}
+                {errorMessage}
+            <div className="CharacterList-Btn">
+                <Button 
+                    label="Load more" 
+                    isLong={true} 
+                    onClick={handleLoadMore}
+                    disabled={newItemLoading}
+                    style={{display: ended ? 'none' : 'block'}}
+                /> 
+            </div>        
+        </div>
+    );
+    
 }
 
 CharacterList.propTypes = {

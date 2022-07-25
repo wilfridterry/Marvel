@@ -1,81 +1,79 @@
 import './RandomCharacter.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import Button from '../Button/Button';
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../Spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import CharacterImage from '../CharacterImage/CharacterImage';
 
-export default class RandomCharacter extends Component {
-     
-    state = {
-        character: {},
-        loading: true,
-        error: false,
-    };
+const RandomCharacter = () => {
+    
+    const [character, setCharacter] = useState(null);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    #marvelService = new MarvelService();
+    const marvelService = new MarvelService();
 
-    componentDidMount() {
-        this.updateChar();
+    useEffect(() => {
+        updateChar();
+    }, []);
+
+
+    const handleCharLoaded = (character) => {
+        setCharacter(character);
+        setLoading(false);
     }
 
-    handleCharLoaded = (character) => {
-        this.setState({character, loading: false});
+    const handleError = () => {
+        setLoading(false);
+        setError(true);
     }
 
-    handleError = () => {
-        this.setState({loading: false, error: true});
-    }
-
-    updateChar = () => {
+    const updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         
-        this.setState({loading: true})
+        setLoading(true);
 
-        this.#marvelService
+        marvelService
             .getCharacter(id)
-            .then(this.handleCharLoaded)
-            .catch(this.handleError);
+            .then(handleCharLoaded)
+            .catch(handleError);
     }
 
-    handleClick = () => {
-        this.updateChar();
+    const handleClick = () => {
+        updateChar();
     }
-
-    render() {
-        const {character, loading, error} = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
         const content = !(loading || error) ? <View character={character}/> : null;
         
-        return (
-            <div className="RandomCharacter">
-                {errorMessage}
-                {spinner}
-                {content}
-                <div className="RandomCharacter-Static">
-                    <div className="RandomCharacter-Title">
-                        Random character for today! <br/>
-                        Do you want to get to know him better?
-                    </div>
-                    <div className="RandomCharacter-Title RandomCharacter-Subtitle">
-                        Or choose another one
-                    </div>
-                    <div className="RandomCharacter-Btn">
-                        <Button onClick={this.handleClick} label="Try it"/>
-                    </div>
-                    <img 
-                        className="RandomCharacter-Decor" 
-                        src={mjolnir} 
-                        alt="Mjolnir" 
-                        />
+    return (
+        <div className="RandomCharacter">
+            {errorMessage}
+            {spinner}
+            {content}
+            <div className="RandomCharacter-Static">
+                <div className="RandomCharacter-Title">
+                    Random character for today! <br/>
+                    Do you want to get to know him better?
                 </div>
+                <div className="RandomCharacter-Title RandomCharacter-Subtitle">
+                    Or choose another one
+                </div>
+                <div className="RandomCharacter-Btn">
+                    <Button onClick={handleClick} label="Try it"/>
+                </div>
+                <img 
+                    className="RandomCharacter-Decor" 
+                    src={mjolnir} 
+                    alt="Mjolnir" 
+                    />
             </div>
-        );
-    }
+        </div>
+    );
+    
 }
 
 const View = ({character, onLoadImage}) => {
@@ -105,3 +103,6 @@ const View = ({character, onLoadImage}) => {
         </div>
     );
 }
+
+
+export default RandomCharacter;
