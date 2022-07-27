@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef} from 'react';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import Button from '../Button/Button';
 import CharacterItem from '../CharacterItem/CharacterItem';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -10,52 +10,40 @@ import './CharacterList.scss';
 const CharacterList = (props) => {
 
     const [characters, setCharacters] = useState([]);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [newItemsLoading, setNewItemsLoading] = useState(false);
     const [ended, setEnded] = useState(false);
     const [offset, setOffset] = useState(210);
 
-    const marvelService = new MarvelService();
+    const {getAllCharacters, loading, error} = useMarvelService();
 
     useEffect(() => {
         updateCharacters();       
     }, []);   
 
 
-    const updateCharacters = (offset) => {
+    const updateCharacters = (offset, initial = false) => {
 
-        handleLoading();
+        setNewItemsLoading(initial);
 
-        marvelService.getAllCharacters(9, offset)
+        getAllCharacters(9, offset)
             .then(handleLoaded)
-            .catch(handleError);
     }
     
-    const handleLoading = () => {
-        setNewItemLoading(true);
-    }
 
     const handleLoaded = (characters) => {
         
         const ended = characters.length < 9 ? true : false;
 
         setCharacters(oldCharacters => [...oldCharacters, ...characters]);
-        setLoading(false);
-        setNewItemLoading(false);
+        setNewItemsLoading(false);
         setEnded(ended);
         setOffset(offset => offset + 9);
     }
 
     const handleLoadMore = () => {
-        updateCharacters(offset);
+        updateCharacters(offset, true);
     }
     
-    const handleError = () => {
-        setError(true);
-        setLoading(false);
-    }
-
     const characterRefs = useRef([]);
 
     const focusOnItem = (id) => {
@@ -89,14 +77,12 @@ const CharacterList = (props) => {
                     {items} 
                 </div>);
 
-    const spinner = loading ? <Spinner /> : null;
-
-    const content = !loading ? list : null;
+    const spinner = loading && !newItemsLoading ? <Spinner /> : null;
     const errorMessage = error ? <ErrorMessage /> : null;
 
     return (
         <div className="CharacterList">
-                {content}
+                {list}
                 {spinner}
                 {errorMessage}
             <div className="CharacterList-Btn">
@@ -104,7 +90,7 @@ const CharacterList = (props) => {
                     label="Load more" 
                     isLong={true} 
                     onClick={handleLoadMore}
-                    disabled={newItemLoading}
+                    disabled={newItemsLoading}
                     style={{display: ended ? 'none' : 'block'}}
                 /> 
             </div>        

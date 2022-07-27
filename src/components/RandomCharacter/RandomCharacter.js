@@ -1,19 +1,16 @@
 import './RandomCharacter.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import Button from '../Button/Button';
-import { Component, useEffect, useState } from 'react';
-import MarvelService from '../../services/MarvelService';
+import { useEffect, useState } from 'react';
+import useMarvelService from '../../services/MarvelService';
 import Spinner from '../Spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import CharacterImage from '../CharacterImage/CharacterImage';
 
 const RandomCharacter = () => {
-    
     const [character, setCharacter] = useState(null);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
 
-    const marvelService = new MarvelService();
+    const {error, loading, getCharacter, clearError} = useMarvelService();
 
     useEffect(() => {
         updateChar();
@@ -22,37 +19,28 @@ const RandomCharacter = () => {
 
     const handleCharLoaded = (character) => {
         setCharacter(character);
-        setLoading(false);
-    }
-
-    const handleError = () => {
-        setLoading(false);
-        setError(true);
     }
 
     const updateChar = () => {
+        clearError();
+        
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         
-        setLoading(true);
-
-        marvelService
-            .getCharacter(id)
-            .then(handleCharLoaded)
-            .catch(handleError);
+        getCharacter(id).then(handleCharLoaded);
     }
 
     const handleClick = () => {
         updateChar();
     }
 
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? <View character={character}/> : null;
-        
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spiner = loading ? <Spinner /> : null;
+    const content = loading || error || !character ? null : <View character={character}/>;
+      
     return (
         <div className="RandomCharacter">
             {errorMessage}
-            {spinner}
+            {spiner}
             {content}
             <div className="RandomCharacter-Static">
                 <div className="RandomCharacter-Title">
@@ -76,7 +64,7 @@ const RandomCharacter = () => {
     
 }
 
-const View = ({character, onLoadImage}) => {
+const View = ({character}) => {
     const {
         name, 
         description, 

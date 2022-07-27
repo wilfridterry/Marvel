@@ -1,37 +1,29 @@
+import { useHttp } from "../hooks/http.hook";
 
-class MarvelService {
+const  useMarvelService = () => {
+    const {request, loading, error, clearError} = useHttp();
 
-    #url = 'https://gateway.marvel.com:443/v1/public';
-    #apiKey = 'e7b055acb3b5ad1f6af031bcb628d4b0';
-    #characterOffset = 210;
+    const url = 'https://gateway.marvel.com:443/v1/public';
+    const apiKey = 'e7b055acb3b5ad1f6af031bcb628d4b0';
+    const characterOffset = 210;
 
-    getResource = async (url) => {
-        let res = await fetch(url);
+    const getAllCharacters = async (limit = 9, offset = characterOffset) => {
+        const res = await request({
+            url: `${url}/characters?limit=${limit}&offset=${offset}&apikey=${apiKey}`
+        });
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-
-        return await res.json();
-    }
-    
-    getAllCharacters = async (limit = 9, offset = this.#characterOffset) => {
-        const res = await this.getResource(
-                `${this.#url}/characters?limit=${limit}&offset=${offset}&apikey=${this.#apiKey}`
-            );
-
-        return res.data.results.map(this.#transformCharacter);
+        return res.data.results.map(transformCharacter);
     }
 
-    getCharacter = async (id) => {
-        const res = await this.getResource(
-                `${this.#url}/characters/${id}?apikey=${this.#apiKey}`
-            );
+    const getCharacter = async (id) => {
+        const res = await request({
+            url: `${url}/characters/${id}?apikey=${apiKey}`
+        });
 
-        return this.#transformCharacter(res.data.results[0]);
+        return transformCharacter(res.data.results[0]);
     }
 
-    #transformCharacter = (character) => {
+    const transformCharacter = (character) => {
         const thumbnail = (
             character.thumbnail.path + '.' + character.thumbnail.extension
         );
@@ -51,6 +43,8 @@ class MarvelService {
             comics: character.comics.items
         };
     }
+
+    return {loading, error, getAllCharacters, getCharacter, clearError};
 }
 
-export default MarvelService;
+export default useMarvelService;
