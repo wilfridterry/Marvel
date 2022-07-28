@@ -1,65 +1,68 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
 
 .RandomCharacter {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: minmax(260px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: minmax(260px, auto);
 
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, .25);
-    &-Block {
-        display: flex;
-        gap: 30px;
-        padding: 40px 35px;
-        img {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-        }
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+  &-Block {
+    display: flex;
+    gap: 30px;
+    padding: 40px 35px;
+    img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
     }
-    &-Info {
-       display: grid;
-       grid-template-rows: minmax(29px, auto) 90px 38px;
-       row-gap: 10px;
-    }
-    &-Name {
-        font-weight: bold;
-        font-size: 22px;
-        line-height: 29px;
-        text-transform: uppercase;
-    }
-    &-Descr {
-        font-size: 14px;
-        line-height: 18px;
-    }
-    &-Static {
-        position: relative;
-        padding: 40px 35px;
-        background-color: $dark;
-    }
-    &-Title {
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 32px;
-        letter-spacing: -0.045em;
-        color: #fff;
-    }
-    &-Subtitle {
-        margin-top: 30px;
-    }
-    &-Decor {
-        position: absolute;
-        bottom: 15px;
-        right: -37px;
-    }
-    &-Btns {
-        display: flex;
-        gap: 30px;
-        flex-wrap: wrap;
-    }
-    &-Btn {
-        margin-top: 10px;
-    }
-    svg {
-        justify-self: center;
-    }
+  }
+  &-Info {
+    display: grid;
+    grid-template-rows: minmax(29px, auto) 90px 38px;
+    row-gap: 10px;
+  }
+  &-Name {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 29px;
+    text-transform: uppercase;
+  }
+  &-Descr {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  &-Static {
+    position: relative;
+    padding: 40px 35px;
+    background-color: $dark;
+  }
+  &-Title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.045em;
+    color: #fff;
+  }
+  &-Subtitle {
+    margin-top: 30px;
+  }
+  &-Decor {
+    position: absolute;
+    bottom: 15px;
+    right: -37px;
+  }
+  &-Btns {
+    display: flex;
+    gap: 30px;
+  }
+  &-Btn {
+    margin-top: 10px;
+  }
+  svg {
+    justify-self: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  
 }
