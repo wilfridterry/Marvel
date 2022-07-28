@@ -7,9 +7,9 @@
     margin-top: 50px;
 }
 
-// @media (max-width: 1100px) {
-//     .CharacterContent {
-//         grid-template-columns: 650px;
-//         row-gap: 50px;
-//     }
-// }
+@media (max-width: 991px) {
+    .CharacterContent {
+        grid-template-columns: 1fr;
+        row-gap: 50px;
+    }
+}

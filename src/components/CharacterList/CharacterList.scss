@@ -1,20 +1,28 @@
-@import '../../styles/variables.scss';
-
+@import "../../styles/variables.scss";
 
 .CharacterList {
+  &-Grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-rows: repeat(3, 318px);
+    grid-auto-rows: 318px;
+    gap: 30px 25px;
+  }
+  &-Btn {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  svg {
+    transform: translateX(75%);
+  }
+}
+
+@media (max-width: 991px) {
+  .CharacterList {
+    order: 2;
     &-Grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 200px);
-        grid-template-rows: repeat(3, 318px);
-        grid-auto-rows: 318px;
-        gap: 30px 25px;
+        justify-content: space-around;
     }
-    &-Btn {
-        margin-top: 50px;
-        display: flex;
-        justify-content: center;
-    }
-    svg {
-        transform: translateX(75%);
-    }
+  }
 }

@@ -56,7 +56,8 @@
     gap: 30px;
   }
   &-Btn {
-    margin-top: 10px;
+    position: absolute;
+    bottom: 40px;
   }
   svg {
     justify-self: center;
@@ -64,5 +65,20 @@
 }
 
 @media screen and (max-width: 1200px) {
-  
+  .RandomCharacter {
+    &-Decor {
+      display: none;
+    }
+    &-Title {
+      font-size: 20px;
+      line-height: 28px;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .RandomCharacter {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 260px);
+  }
 }
