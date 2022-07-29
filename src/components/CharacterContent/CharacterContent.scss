@@ -1,15 +1,15 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
 
 .CharacterContent {
-    display: grid;
-    grid-template-columns: minmax(auto, 650px) minmax(auto, 425px);
-    column-gap: 25px;
-    margin-top: 50px;
+  display: grid;
+  grid-template-columns: minmax(auto, 650px) minmax(auto, 425px);
+  column-gap: 25px;
+  margin-top: 50px;
 }
 
 @media (max-width: 991px) {
-    .CharacterContent {
-        grid-template-columns: 1fr;
-        row-gap: 50px;
-    }
+  .CharacterContent {
+    grid-template-columns: 1fr;
+    row-gap: 50px;
+  }
 }

@@ -1,43 +1,43 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
 
 .SingleComics {
-    display: grid;
-    grid-template-columns: 293px 550px auto;
-    column-gap: 50px;
-    margin-top: 50px;
-    img {
-        width: 293px;
-        height: 450px;
-        object-fit: cover;
-    }
-    &-Title {
-        font-weight: bold;
-        font-size: 22px;
-        line-height: 29px;
-    }
-    &-Descr {
-        margin-top: 25px;
-        font-size: 18px;
-        line-height: 24px;
-    }
-    &-Pages {
-        margin-top: 25px;
-        font-size: 18px;
-    }
-    &-Language {
-        margin-top: 25px;
-        font-size: 18px;
-    }
-    &-Price {
-        margin-top: 25px;
-        color: $mainColor;
-        font-weight: bold;
-        font-size:c 24px;
-        line-height: 32px;
-    }
-    &-Back {
-        font-weight: bold;
-        font-size: 18px;
-        text-align: end;
-    }
+  display: grid;
+  grid-template-columns: 293px 550px auto;
+  column-gap: 50px;
+  margin-top: 50px;
+  img {
+    width: 293px;
+    height: 450px;
+    object-fit: cover;
+  }
+  &-Title {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 29px;
+  }
+  &-Descr {
+    margin-top: 25px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  &-Pages {
+    margin-top: 25px;
+    font-size: 18px;
+  }
+  &-Language {
+    margin-top: 25px;
+    font-size: 18px;
+  }
+  &-Price {
+    margin-top: 25px;
+    color: $mainColor;
+    font-weight: bold;
+    font-size: c 24px;
+    line-height: 32px;
+  }
+  &-Back {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: end;
+  }
 }
