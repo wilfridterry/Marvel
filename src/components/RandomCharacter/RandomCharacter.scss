@@ -105,11 +105,15 @@
 
 @media screen and (max-width: 425px) {
   .RandomCharacter {
-  
     &-Btns {
       max-width: 200px;
       flex-direction: column;
       gap: 10px;
+    }
+    
+    &-Btn {
+      display: block;
+      max-width: 200px;
     }
   }
 }

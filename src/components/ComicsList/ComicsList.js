@@ -1,37 +1,49 @@
 import "./ComicsList.scss";
-import ultimateWar from "../../resources/img/UW.png";
-import xMen from "../../resources/img/x-men.png";
 import ComicsItem from "../ComicsItem/ComicsItem";
 import Button from "../Button/Button";
+import { useEffect, useState } from "react";
+import useMarvelService from "../../services/MarvelService";
+import Spinner from "../Spinner/Spinner";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-export default function ComicsList() {
-  const comicsData = [
-    {
-      imgSrc: ultimateWar,
-      imgAlt: "Ultimate war",
-      price: "9.99$",
-      title: "ULTIMATE X-MEN VOL. 5: ULTIMATE WAR TPB",
-    },
-    {
-      imgSrc: xMen,
-      imgAlt: "X MEN",
-      price: null,
-      title: "X-Men: Days of Future Past",
-    },
-  ];
+const ComicsList = () => {
+  const [comics, setComics] = useState([]);
 
-  const comics = new Array(8).fill(null).map((item, index) => {
-    const comicsObj = index % 2 === 0 ? comicsData[0] : comicsData[1];
+  const {loading, error, getAllComics} = useMarvelService();
 
-    return <ComicsItem {...comicsObj} key={index} />;
+  useEffect(() => {
+    getAllComics()
+      .then(handleComicsLoaded);
+  }, []);
+
+  const handleComicsLoaded = (comics) => {
+    setComics(comics);
+  }
+
+  const comicsItems = comics.map((item, index) => {
+    return <ComicsItem comics={item} key={item.id} />;
   });
 
-  return (
-    <div className="ComicsList">
-      <div className="ComicsList-Grid">{comics}</div>
+  let comicsData = (
+    <>
+      <div className="ComicsList-Grid">{comicsItems}</div>
       <div className="ComicsList-Btn">
         <Button label="load more" isLong={true} />
       </div>
+    </>
+  );
+  
+  const spinner = loading ? <Spinner/> : null;
+  const errorMessage = error ? <ErrorMessage/> : null;
+  comicsData = spinner || errorMessage || !comicsData ? null : comicsData;
+
+  return (
+    <div className="ComicsList">
+      {spinner}
+      {errorMessage}
+      {comicsData}
     </div>
   );
-}
+};
+
+export default ComicsList;
