@@ -36,3 +36,15 @@
     }
   }
 }
+
+@media screen and (max-width: 425px) {
+  .Header {
+    flex-direction: column;
+    gap: 10px;
+    &-Menu {
+      ul {
+        justify-content: center;
+      }
+    }
+  }
+}

@@ -72,10 +72,10 @@ const View = ({ character }) => {
       <div className="RandomCharacter-Info">
         <div className="RandomCharacter-Name">{name}</div>
         <div className="RandomCharacter-Descr">{description}</div>
-        {/* <div className="RandomCharacter-Btns">
+        <div className="RandomCharacter-Btns">
           <Button label="Homepage" href={homepage} />
           <Button label="Wiki" isGrey={true} href={wiki} />
-        </div> */}
+        </div>
       </div>
     </div>
   );

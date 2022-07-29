@@ -18,7 +18,7 @@
   }
   &-Info {
     display: grid;
-    grid-template-rows: minmax(29px, auto) 90px 38px;
+    grid-template-rows: minmax(29px, auto) 90px minmax(38px, auto);
     row-gap: 10px;
   }
   &-Name {
@@ -79,6 +79,37 @@
 @media screen and (max-width: 991px) {
   .RandomCharacter {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 260px);
+    grid-template-rows: repeat(2, minmax(260px, auto));
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .RandomCharacter {
+    &-Block {
+      padding: 25px 20px;
+      flex-direction: column;
+    }
+    &-Static {
+      padding: 25px 20px;
+    }
+    &-Btn {
+      position: absolute;
+      bottom: 25px;
+    }
+    &-Subtitle {
+      margin-top: 25px;
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .RandomCharacter {
+  
+    &-Btns {
+      max-width: 200px;
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 }
