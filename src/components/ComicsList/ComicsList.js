@@ -8,38 +8,60 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const ComicsList = () => {
   const [comics, setComics] = useState([]);
+  const { loading, error, getAllComics } = useMarvelService();
 
-  const {loading, error, getAllComics} = useMarvelService();
+  const [newItemsLoading, setNewItemsLoading] = useState(null);
+  const [offset, setOffset] = useState(610);
+  const [ended, setEnded] = useState(false);
 
   useEffect(() => {
-    getAllComics()
-      .then(handleComicsLoaded);
+    getAllComics().then(handleComicsLoaded);
   }, []);
 
   const handleComicsLoaded = (comics) => {
     setComics(comics);
-  }
+  };
+
+  const handleLoadMore = () => {
+    setNewItemsLoading(true);
+    getAllComics(8, offset).then(handleLoadNewItems);
+  };
+
+  const handleLoadNewItems = (newComics = []) => {
+    const ended = newComics.length < 8 ? true : false;
+    setEnded(ended);
+    setOffset((offset) => offset + 8);
+    setComics([...comics, ...newComics]);
+    setNewItemsLoading(false);
+  };
 
   const comicsItems = comics.map((item, index) => {
-    return <ComicsItem comics={item} key={item.id} />;
+    return <ComicsItem comics={item} key={index} />;
   });
 
   let comicsData = (
     <>
       <div className="ComicsList-Grid">{comicsItems}</div>
       <div className="ComicsList-Btn">
-        <Button label="load more" isLong={true} />
+        <Button
+          label="load more"
+          isLong={true}
+          onClick={handleLoadMore}
+          disabled={newItemsLoading}
+          style={{ display: ended ? "none" : "block" }}
+        />
       </div>
     </>
   );
-  
-  const spinner = loading ? <Spinner/> : null;
-  const errorMessage = error ? <ErrorMessage/> : null;
+
+  const spinner = loading && !newItemsLoading ? <Spinner /> : null;
+
+  const errorMessage = error ? <ErrorMessage /> : null;
   comicsData = spinner || errorMessage || !comicsData ? null : comicsData;
 
   return (
     <div className="ComicsList">
-      {spinner}
+      <div className="ComicsList-Spinner">{spinner}</div>
       {errorMessage}
       {comicsData}
     </div>
