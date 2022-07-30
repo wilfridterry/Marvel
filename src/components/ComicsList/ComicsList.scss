@@ -16,3 +16,11 @@
     justify-content: center;
   }
 }
+
+@media screen and (max-width: 525px) {
+  .ComicsList {
+    &-Grid {
+      justify-content: center;
+    }
+  }
+}

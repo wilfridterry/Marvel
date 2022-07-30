@@ -15,3 +15,30 @@
     color: #fff;
   }
 }
+
+
+@media screen and (max-width: 992px) {
+  .Banner {
+    grid-template-columns: auto 133px;
+    &-Avengers {
+      display: none;
+    }
+    &-Text {
+      padding-left: 50px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Banner {
+    grid-template-columns: auto;
+    padding-left: 20px;
+    &-Text {
+      font-size: 22px;
+      padding-left: 0;
+    }
+    &-Logo {
+      display: none;
+    }
+  }
+}
