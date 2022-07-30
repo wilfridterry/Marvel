@@ -1,41 +1,18 @@
 import "./ComicsList.scss";
 import ComicsItem from "../ComicsItem/ComicsItem";
 import Button from "../Button/Button";
-import { useEffect, useState } from "react";
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import useLoadingResources from "../../hooks/loadingResources.hook";
 
 const ComicsList = () => {
-  const [comics, setComics] = useState([]);
   const { loading, error, getAllComics } = useMarvelService();
 
-  const [newItemsLoading, setNewItemsLoading] = useState(null);
-  const [offset, setOffset] = useState(610);
-  const [ended, setEnded] = useState(false);
+  const { resources, newItemsLoading, ended, handleLoadMore } =
+    useLoadingResources(getAllComics, 8, 610);
 
-  useEffect(() => {
-    getAllComics().then(handleComicsLoaded);
-  }, []);
-
-  const handleComicsLoaded = (comics) => {
-    setComics(comics);
-  };
-
-  const handleLoadMore = () => {
-    setNewItemsLoading(true);
-    getAllComics(8, offset).then(handleLoadNewItems);
-  };
-
-  const handleLoadNewItems = (newComics = []) => {
-    const ended = newComics.length < 8 ? true : false;
-    setEnded(ended);
-    setOffset((offset) => offset + 8);
-    setComics([...comics, ...newComics]);
-    setNewItemsLoading(false);
-  };
-
-  const comicsItems = comics.map((item, index) => {
+  const comicsItems = resources.map((item, index) => {
     return <ComicsItem comics={item} key={index} />;
   });
 

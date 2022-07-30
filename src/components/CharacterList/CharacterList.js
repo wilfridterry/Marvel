@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
+import useLoadingResources from "../../hooks/loadingResources.hook";
 import useMarvelService from "../../services/MarvelService";
 import Button from "../Button/Button";
 import CharacterItem from "../CharacterItem/CharacterItem";
@@ -8,35 +9,9 @@ import Spinner from "../Spinner/Spinner";
 import "./CharacterList.scss";
 
 const CharacterList = (props) => {
-  const [characters, setCharacters] = useState([]);
-  const [newItemsLoading, setNewItemsLoading] = useState(false);
-  const [ended, setEnded] = useState(false);
-  const [offset, setOffset] = useState(210);
-
   const { getAllCharacters, loading, error } = useMarvelService();
-
-  useEffect(() => {
-    updateCharacters();
-  }, []);
-
-  const updateCharacters = (offset, initial = false) => {
-    setNewItemsLoading(initial);
-
-    getAllCharacters(9, offset).then(handleLoaded);
-  };
-
-  const handleLoaded = (characters) => {
-    const ended = characters.length < 9 ? true : false;
-
-    setCharacters((oldCharacters) => [...oldCharacters, ...characters]);
-    setNewItemsLoading(false);
-    setEnded(ended);
-    setOffset((offset) => offset + 9);
-  };
-
-  const handleLoadMore = () => {
-    updateCharacters(offset, true);
-  };
+  const { resources, newItemsLoading, ended, handleLoadMore } =
+    useLoadingResources(getAllCharacters, 8, 620);
 
   const characterRefs = useRef([]);
 
@@ -48,7 +23,7 @@ const CharacterList = (props) => {
     characterRefs.current[id].focus();
   };
 
-  const items = characters.map((item, index) => {
+  const items = resources.map((item, index) => {
     return (
       <CharacterItem
         tabIndex={0}
