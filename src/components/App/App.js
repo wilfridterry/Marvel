@@ -13,17 +13,19 @@ const App = () => {
     <div className="App">
       <Header />
       <main>
-        <div className="characters">
+        {/* <div className="characters">
           <ErrorBoundary>
             <RandomCharacter />
           </ErrorBoundary>
           <CharacterContent />
           <img src={vision} alt="Vision" className="App-Decor" />
+        </div> */}
+        <div className="comics">
+          <Banner />
+          <ErrorBoundary>
+            <ComicsList />
+          </ErrorBoundary>
         </div>
-        {/* <div className="comics">
-                    <Banner />
-                    <ComicsList />
-                </div> */}
         {/* <div className="single-comics">
                     <Banner />
                     <SingleComics />

@@ -20,9 +20,9 @@ const useLoadingResources = (service, limit, initialOffset) => {
     };
     
       const handleLoadNewItems = (newItems = []) => {
-        const ended = newItems.length < 8 ? true : false;
+        const ended = newItems.length < limit ? true : false;
         setEnded(ended);
-        setOffset((offset) => offset + 8);
+        setOffset((offset) => offset + limit);
         setResources([...resources, ...newItems]);
         setNewItemsLoading(false);
       };
