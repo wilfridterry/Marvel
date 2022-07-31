@@ -18,7 +18,8 @@ export default function Header() {
       <nav className="Header-Menu">
         <ul>
           <li>
-            <NavLink 
+            <NavLink
+              end 
               to="/" 
               style={setActiveStyles}
             >Characters</NavLink>
@@ -26,6 +27,7 @@ export default function Header() {
           /
           <li>
             <NavLink 
+              end
               to="comics" 
               style={setActiveStyles}
             >Comics</NavLink>

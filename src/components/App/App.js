@@ -1,29 +1,24 @@
 import { Routes, Route } from "react-router-dom";
-import React, { Suspense } from "react";
-
-import Header from "../Header/Header";
+import React from "react";
 import Banner from "../Banner/Banner";
 
 import SingleComics from "../SingleComics/SingleComics";
 
 import "./App.scss";
+import Layout from "../Pages/Layout";
 
-const Home = React.lazy(() => import("../Pages/Home"));
+const Characters = React.lazy(() => import("../Pages/Characters"));
 const Comics = React.lazy(() => import("../Pages/Comics"));
 
 const App = () => {
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <Suspense fallback={<div>Dowloading</div>}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="comics" element={<Comics />} />
-          </Routes>
-        </Suspense>
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Characters />}></Route>
+        <Route path="/characters" element={<Characters />} />
+        <Route path="/comics" element={<Comics />} />
+      </Route>
+    </Routes>
   );
 };
 
