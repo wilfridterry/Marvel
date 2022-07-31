@@ -1,7 +1,7 @@
-import "./SingleComics.scss";
+import "./SingleComic.scss";
 import xMen from "../../resources/img/x-men.png";
 
-export default function SingleComics() {
+export default function SingleComic() {
   return (
     <div className="SingleComics">
       <img src={xMen} alt="X-MEN" />
