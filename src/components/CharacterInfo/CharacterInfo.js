@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CharacterImage from "../CharacterImage/CharacterImage";
 
 import "./CharacterInfo.scss";
+import { Link } from "react-router-dom";
 
 const CharacterInfo = (props) => {
   const character = props.character;
@@ -43,10 +44,11 @@ const View = ({ character }) => {
 
   let comicsList = comics.slice(10);
   comicsList = comicsList.map((item, index) => {
+    const id = item.resourceURI.match(/\d{3,7}/)[0];
     return (
-      <div className="CharacterInfo-ComicsItem" key={index}>
+      <Link to={`/comics/${id}`} className="CharacterInfo-ComicsItem" key={index}>
         {item.name}
-      </div>
+      </Link>
     );
   });
 
@@ -68,7 +70,7 @@ const View = ({ character }) => {
       </div>
       <div className="CharacterInfo-Comics">Comics: </div>
       <div className="CharacterInfo-ComicsList">
-        {comicsList.length === 0 ? "There is no comics." : null}
+        {comicsList.length === 0 ? "There are no comics." : null}
         {comicsList}
       </div>
     </>

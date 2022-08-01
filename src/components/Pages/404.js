@@ -1,14 +1,34 @@
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    if (window.history.length > 2) {
+      navigate(-1);
+    }
+    navigate("/", { replace: true });
+  };
+
   return (
     <>
       <ErrorMessage />
       <p style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>
         Page Doesn't Exist
       </p>
-      <Link style={{display: "block", fontSize: 24, textAlign: "center", marginTop: 20}} to="/">Back to main page</Link>
+      <div
+        style={{
+          display: "block",
+          fontSize: 24,
+          textAlign: "center",
+          marginTop: 20,
+          cursor: "pointer",
+        }}
+        onClick={goBack}
+      >
+        Go back
+      </div>
     </>
   );
 };
