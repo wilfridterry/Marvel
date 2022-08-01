@@ -27,8 +27,7 @@ export default function Header() {
           /
           <li>
             <NavLink 
-              end
-              to="comics" 
+              to="/comics" 
               style={setActiveStyles}
             >Comics</NavLink>
           </li>
