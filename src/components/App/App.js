@@ -1,15 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import React from "react";
-import Banner from "../Banner/Banner";
-
-import SingleComic from "../SingleComic/SingleComic";
-
+import { lazy } from "react";
 import "./App.scss";
 import Layout from "../Pages/Layout";
-import NotFound from "../Pages/404";
 
-const Characters = React.lazy(() => import("../Pages/Characters"));
-const Comics = React.lazy(() => import("../Pages/Comics"));
+const Characters = lazy(() => import("../Pages/Characters"));
+const Comics = lazy(() => import("../Pages/Comics"));
+const Comic = lazy(() => import('../Pages/Comic'));
+const NotFound = lazy(() => import('../Pages/404'));
 
 const App = () => {
   return (
@@ -22,15 +19,6 @@ const App = () => {
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
-  );
-};
-
-const Comic = () => {
-  return (
-    <div className="single-comics">
-      <Banner />
-      <SingleComic />
-    </div>
   );
 };
 
