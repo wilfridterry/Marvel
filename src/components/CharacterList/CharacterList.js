@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useRef } from "react";
+import { CSSTransition } from "react-transition-group";
 import useLoadingResources from "../../hooks/loadingResources.hook";
 import useMarvelService from "../../services/MarvelService";
 import Button from "../Button/Button";
@@ -53,7 +54,14 @@ const CharacterList = (props) => {
 
   return (
     <div className="CharacterList">
-      {list}
+      <CSSTransition
+        in={spinner ? false : true}
+        timeout={300}
+        classNames="CharacterList-Grid"
+        unmountOnExit
+      >
+        {list}
+      </CSSTransition>
       {spinner}
       {errorMessage}
       <div className="CharacterList-Btn">

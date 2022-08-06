@@ -1,3 +1,5 @@
+@import "../../styles/transition-list-mixin.scss";
+
 .ComicsList {
   margin-top: 45px;
   &-Grid {
@@ -5,6 +7,9 @@
     grid-template-columns: repeat(auto-fit, 225px);
     justify-content: space-between;
     row-gap: 55px;
+  }
+  &-Data {
+    @include trans-list;
   }
   &-Btn {
     display: flex;

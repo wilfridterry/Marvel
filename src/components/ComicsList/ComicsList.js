@@ -5,6 +5,7 @@ import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import useLoadingResources from "../../hooks/loadingResources.hook";
+import { CSSTransition } from "react-transition-group";
 
 const ComicsList = () => {
   const { loading, error, getAllComics } = useMarvelService();
@@ -40,7 +41,16 @@ const ComicsList = () => {
     <div className="ComicsList">
       <div className="ComicsList-Spinner">{spinner}</div>
       {errorMessage}
-      {comicsData}
+      <CSSTransition
+          in={spinner ? false : true}
+        timeout={300}
+        classNames="ComicsList-Data"
+        unmountOnExit
+      >
+        <div className="ComicsList-Data">
+          {comicsData}
+        </div>
+      </CSSTransition>
     </div>
   );
 };

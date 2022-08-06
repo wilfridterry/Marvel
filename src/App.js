@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 import "./App.scss";
-import Layout from "../Pages/Layout";
+import Layout from "./components/Pages/Layout";
 
-const Characters = lazy(() => import("../Pages/Characters"));
-const Comics = lazy(() => import("../Pages/Comics"));
-const Comic = lazy(() => import('../Pages/Comic'));
-const NotFound = lazy(() => import('../Pages/404'));
+const Characters = lazy(() => import("./components/Pages/Characters"));
+const Comics = lazy(() => import("./components/Pages/Comics"));
+const Comic = lazy(() => import('./components/Pages/Comic'));
+const NotFound = lazy(() => import('./components/Pages/404'));
 
 const App = () => {
   return (
