@@ -1,18 +1,25 @@
 import "./Button.scss";
 
 export default function Button(props) {
-  const { label, isGrey, isLong, href, onClick, disabled, style } = props;
+  const { label, isGrey, isLong, disabled, as = "a", ...otherProps } = props;
 
   let className = "Button";
   className += isGrey ? " Grey" : "";
   className += isLong ? " Long" : "";
   className += disabled ? " Disabled" : "";
 
-  const handleClick = onClick ? { onClick: onClick } : null;
+  const child = <div className="Button-Inner">{label}</div>;
 
-  return (
-    <a href={href} className={className} {...handleClick} style={style}>
-      <div className="Button-Inner">{label}</div>
-    </a>
-  );
+  const component =
+    as === "a" ? (
+      <a className={className} {...otherProps}>
+        {child}
+      </a>
+    ) : (
+      <button className={className} {...otherProps}>
+        {child}
+      </button>
+    );
+    
+  return component;
 }

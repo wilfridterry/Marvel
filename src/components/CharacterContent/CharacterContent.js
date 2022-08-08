@@ -3,6 +3,7 @@ import CharacterList from "../CharacterList/CharacterList";
 import CharacterInfo from "../CharacterInfo/CharacterInfo";
 import { memo, useCallback, useState } from "react";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import SearchForm from "../SearchForm/SearchForm";
 
 const MemoizedCharacterList = memo(CharacterList);
 const MemoizedCharacterInfo = memo(CharacterInfo);
@@ -24,7 +25,10 @@ const CharacterContent = () => {
       </ErrorBoundary>
 
       <ErrorBoundary>
-        <MemoizedCharacterInfo character={selectedCharacter} />
+        <div>
+          <MemoizedCharacterInfo character={selectedCharacter} />
+          <SearchForm />
+        </div>
       </ErrorBoundary>
     </div>
   );
