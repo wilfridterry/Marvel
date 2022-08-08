@@ -64,7 +64,7 @@ const SearchForm = () => {
                 <Button label="Find" disabled={loading} as="button" />
                 {character && (
                   <Link to={`characters/${character.id}`} className="SearchForm-Anchor">
-                    <Button label="To page" isGrey={true} />
+                    <Button label="To page" isGrey={true} as="button" style={{width: '100%'}}/>
                   </Link>
                 )}
               </fieldset>
