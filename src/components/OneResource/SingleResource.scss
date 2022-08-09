@@ -1,6 +1,6 @@
 @import "../../styles/variables.scss";
 
-.SingleComics {
+.SingleResource {
   display: grid;
   grid-template-columns: 293px 550px auto;
   column-gap: 50px;
@@ -43,14 +43,14 @@
 }
 
 @media (max-width: 1200px) {
-  .SingleComics {
+  .SingleResource {
     grid-template-columns: 293px auto auto;
     column-gap: 30px;
   }
 }
 
 @media (max-width: 991px) {
-  .SingleComics {
+  .SingleResource {
     grid-template-columns: 293px auto;
     grid-template-rows: 20px, 450px;
     column-gap: 0;
@@ -68,7 +68,7 @@
 }
 
 @media (max-width: 600px) {
-  .SingleComics {
+  .SingleResource {
     grid-template-columns: 1fr;
     grid-template-rows: 20px, 450px, auto;
     row-gap: 20px;

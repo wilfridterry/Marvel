@@ -6,6 +6,8 @@ import Layout from "./components/Pages/Layout";
 const Characters = lazy(() => import("./components/Pages/Characters"));
 const Comics = lazy(() => import("./components/Pages/Comics"));
 const Comic = lazy(() => import('./components/Pages/Comic'));
+const Character = lazy(() => import('./components/Pages/Character'));
+
 const NotFound = lazy(() => import('./components/Pages/404'));
 
 const App = () => {
@@ -16,7 +18,7 @@ const App = () => {
         <Route path="/characters" element={<Characters />} />
         <Route path="/comics/:comicId" element={<Comic />}/>
         <Route path="/comics" element={<Comics />} />
-        <Route path="/characters/:characterId" element={<Comics />} />
+        <Route path="/characters/:characterId" element={<Character />} />
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>

@@ -8,15 +8,13 @@ import Button from "../Button/Button";
 import "./SearchForm.scss";
 
 const SearchForm = () => {
-  const [character, setCharacter] = useState(null);
-  const [notFound, setNotFound] = useState(false);
+  const [character, setCharacter] = useState({});
   const { findCharacterByName, loading, error } = useMarvelService();
 
   const handleSubmit = useCallback((values, { setSubmitting }) => {
     findCharacterByName(values.name).then((character) => {
       setCharacter(character);
       setSubmitting(false);
-      setNotFound(!character);
     });
   }, []);
 
@@ -30,48 +28,52 @@ const SearchForm = () => {
       })}
       onSubmit={handleSubmit}
     >
-      {({ values }) => {
-        return (
-          <Form className="SearchForm">
-            <h4 className="SearchForm-Title">Or find a character by name:</h4>
-            <div className="SearchForm-Group">
-              <fieldset>
-                <Field
-                  type="text"
-                  name="name"
-                  className="SearchForm-Input"
-                  placeholder="Enter name"
-                />
-                <ErrorMessage
-                  name="name"
-                  className="SearchForm-Title SearchForm__Error"
-                  component="div"
-                />
+      <Form className="SearchForm">
+        <h4 className="SearchForm-Title">Or find a character by name:</h4>
+        <div className="SearchForm-Group">
+          <fieldset>
+            <Field
+              type="text"
+              name="name"
+              className="SearchForm-Input"
+              placeholder="Enter name"
+            />
+            <ErrorMessage
+              name="name"
+              className="SearchForm-Title SearchForm__Error"
+              component="div"
+            />
 
-                {character && (
-                  <div className="SearchForm-Title SearchForm__Success">
-                    There is! Visit {character.name} page?
-                  </div>
-                )}
+            {(character && Object.keys(character).length !== 0) && (
+              <div className="SearchForm-Title SearchForm__Success">
+                There is! Visit {character.name} page?
+              </div>
+            )}
 
-                {(error || notFound) && (
-                  <div className="SearchForm-Title SearchForm__Error">
-                    The characters was not found. Check the name and try again
-                  </div>
-                )}
-              </fieldset>
-              <fieldset className="SearchForm-Btns">
-                <Button label="Find" disabled={loading} as="button" />
-                {character && (
-                  <Link to={`characters/${character.id}`} className="SearchForm-Anchor">
-                    <Button label="To page" isGrey={true} as="button" style={{width: '100%'}}/>
-                  </Link>
-                )}
-              </fieldset>
-            </div>
-          </Form>
-        );
-      }}
+            {(error || character === null) && (
+              <div className="SearchForm-Title SearchForm__Error">
+                There are no characters wit input name. Check the name and try again
+              </div>
+            )}
+          </fieldset>
+          <fieldset className="SearchForm-Btns">
+            <Button label="Find" disabled={loading} as="button" />
+            {(character && Object.keys(character).length !== 0) && (
+              <Link
+                to={`characters/${character.id}`}
+                className="SearchForm-Anchor"
+              >
+                <Button
+                  label="To page"
+                  isGrey={true}
+                  as="button"
+                  style={{ width: "100%" }}
+                />
+              </Link>
+            )}
+          </fieldset>
+        </div>
+      </Form>
     </Formik>
   );
 };
