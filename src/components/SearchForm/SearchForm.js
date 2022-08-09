@@ -1,22 +1,32 @@
-import { Form, Formik, Field, ErrorMessage } from "formik";
+import {
+  Form,
+  Formik,
+  Field,
+  ErrorMessage as FormikErrorMessage,
+} from "formik";
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import useMarvelService from "../../services/MarvelService";
 import Button from "../Button/Button";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 import "./SearchForm.scss";
 
 const SearchForm = () => {
   const [character, setCharacter] = useState({});
-  const { findCharacterByName, loading, error } = useMarvelService();
+  const { findCharacterByName, loading, error, clearError } =
+    useMarvelService();
 
   const handleSubmit = useCallback((values, { setSubmitting }) => {
+    clearError();
     findCharacterByName(values.name).then((character) => {
       setCharacter(character);
       setSubmitting(false);
     });
   }, []);
+
+  const errorMessage = error ? <ErrorMessage /> : null;
 
   return (
     <Formik
@@ -38,13 +48,13 @@ const SearchForm = () => {
               className="SearchForm-Input"
               placeholder="Enter name"
             />
-            <ErrorMessage
+            <FormikErrorMessage
               name="name"
               className="SearchForm-Title SearchForm__Error"
               component="div"
             />
 
-            {(character && Object.keys(character).length !== 0) && (
+            {character && Object.keys(character).length !== 0 && (
               <div className="SearchForm-Title SearchForm__Success">
                 There is! Visit {character.name} page?
               </div>
@@ -52,13 +62,14 @@ const SearchForm = () => {
 
             {(error || character === null) && (
               <div className="SearchForm-Title SearchForm__Error">
-                There are no characters wit input name. Check the name and try again
+                There are no characters wit input name. Check the name and try
+                again
               </div>
             )}
           </fieldset>
           <fieldset className="SearchForm-Btns">
             <Button label="Find" disabled={loading} as="button" />
-            {(character && Object.keys(character).length !== 0) && (
+            {character && Object.keys(character).length !== 0 && (
               <Link
                 to={`characters/${character.id}`}
                 className="SearchForm-Anchor"
@@ -73,6 +84,7 @@ const SearchForm = () => {
             )}
           </fieldset>
         </div>
+        {errorMessage}
       </Form>
     </Formik>
   );
