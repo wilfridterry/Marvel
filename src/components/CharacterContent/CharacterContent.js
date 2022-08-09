@@ -13,9 +13,9 @@ const CharacterContent = () => {
 
   const [count, setCount] = useState(0); // For test memoization components
 
-  const handleCharacterSelected = useCallback(character => {
+  const handleCharacterSelected = useCallback((character) => {
     setSelectedCharacter(character);
-    setCount(count => count + 1);
+    setCount((count) => count + 1);
   }, []);
 
   return (

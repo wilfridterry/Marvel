@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import SingleResource from "../OneResource/SingleResource";
+import { Helmet } from "react-helmet";
 
 export default function SingleComic() {
   const { getComic, loading, error } = useMarvelService();
@@ -23,6 +24,10 @@ const View = ({ comic }) => {
 
   return (
     <>
+      <Helmet>
+        <meta name="description" content={`${title} comics book`} />
+        <title>{title}</title>
+      </Helmet>
       <img src={thumbnail} alt={title} />
       <div className="SingleResource-Details">
         <div className="SingleResource-Title">{title}</div>
