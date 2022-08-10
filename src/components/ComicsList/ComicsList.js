@@ -7,11 +7,37 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import useLoadingResources from "../../hooks/loadingResources.hook";
 import { CSSTransition } from "react-transition-group";
 
+const setContent = (process, Component, newItemsLoading) => {
+  switch (process) {
+    case "waiting":
+      return (
+        <div className="ComicsList-Spinner">
+          <Spinner />
+        </div>
+      );
+    case "loading":
+      return newItemsLoading ? (
+        <Component />
+      ) : (
+        <div className="ComicsList-Spinner">
+          <Spinner />
+        </div>
+      );
+    case "confirmed":
+      return <Component />;
+    case "error":
+      return <ErrorMessage />;
+    default:
+      throw new Error("Unexpectd process state");
+  }
+};
+
 const ComicsList = () => {
-  const { loading, error, getAllComics } = useMarvelService();
+  const { getAllComics, process, setProcess } =
+    useMarvelService();
 
   const { resources, newItemsLoading, ended, handleLoadMore } =
-    useLoadingResources(getAllComics, 8, 610);
+    useLoadingResources(getAllComics, 8, 610, setProcess);
 
   const comicsItems = resources.map((item, index) => {
     return <ComicsItem comics={item} key={index} />;
@@ -32,23 +58,23 @@ const ComicsList = () => {
     </>
   );
 
-  const spinner = loading && !newItemsLoading ? <Spinner /> : null;
-
-  const errorMessage = error ? <ErrorMessage /> : null;
-  comicsData = spinner || errorMessage || !comicsData ? null : comicsData;
-
   return (
     <div className="ComicsList">
-      <div className="ComicsList-Spinner">{spinner}</div>
-      {errorMessage}
+      {/* {process === 'loading' && !newItemsLoading ? setContent(process, () => {}) : null} */}
       <CSSTransition
-          in={spinner ? false : true}
+        in={process === 'loading' && !newItemsLoading ? false : true}
         timeout={300}
         classNames="ComicsList-Data"
         unmountOnExit
       >
-        <div className="ComicsList-Data">
-          {comicsData}
+        <div>
+          {setContent(
+            process,
+            () => (
+              <div className="ComicsList-Data">{comicsData}</div>
+            ),
+            newItemsLoading
+          )}
         </div>
       </CSSTransition>
     </div>

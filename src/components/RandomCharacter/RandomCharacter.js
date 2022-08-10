@@ -3,15 +3,13 @@ import mjolnir from "../../resources/img/mjolnir.png";
 import Button from "../Button/Button";
 import { useEffect, useState } from "react";
 import useMarvelService from "../../services/MarvelService";
-import Spinner from "../Spinner/Spinner";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import CharacterImage from "../CharacterImage/CharacterImage";
 import setContent from "../../utils/setContent";
 
 const RandomCharacter = () => {
   const [character, setCharacter] = useState(null);
 
-  const { error, loading, getCharacter, clearError, process, setProcess } =
+  const {getCharacter, clearError, process, setProcess } =
     useMarvelService();
 
   useEffect(() => {

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-const useLoadingResources = (service, limit, initialOffset) => {
+const useLoadingResources = (service, limit, initialOffset, setProcess) => {
     const [resources, setResources] = useState([]);
     const [newItemsLoading, setNewItemsLoading] = useState(null);
     const [offset, setOffset] = useState(initialOffset);
     const [ended, setEnded] = useState(false);
 
     useEffect(() => {
-        service().then(handleResourcesLoaded);
+        service().then(handleResourcesLoaded).then(() => setProcess('confirmed'));
     }, []);
     
     const handleResourcesLoaded = (resources) => {
@@ -16,7 +16,7 @@ const useLoadingResources = (service, limit, initialOffset) => {
 
     const handleLoadMore = () => {
         setNewItemsLoading(true);
-        service(limit, offset).then(handleLoadNewItems);
+        service(limit, offset).then(handleLoadNewItems).then(() => setProcess('confirmed'));
     };
     
       const handleLoadNewItems = (newItems = []) => {

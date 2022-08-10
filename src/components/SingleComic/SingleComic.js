@@ -4,13 +4,13 @@ import SingleResource from "../OneResource/SingleResource";
 import { Helmet } from "react-helmet";
 
 export default function SingleComic() {
-  const { getComic, loading, error } = useMarvelService();
+  const { getComic, process, setProcess } = useMarvelService();
   const { comicId } = useParams();
 
   return (
     <SingleResource
-      loading={loading}
-      error={error}
+      process={process}
+      setProcess={setProcess}
       service={getComic}
       resourceId={comicId}
     >

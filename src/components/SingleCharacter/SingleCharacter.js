@@ -4,13 +4,13 @@ import SingleResource from "../OneResource/SingleResource";
 import { Helmet } from "react-helmet";
 
 const SingleCharacter = () => {
-  const { getCharacter, loading, error } = useMarvelService();
+  const { getCharacter, process, setProcess } = useMarvelService();
   const { characterId } = useParams();
 
   return (
     <SingleResource
-      loading={loading}
-      error={error}
+      process={process}
+      setProcess={setProcess}
       service={getCharacter}
       resourceId={characterId}
     >

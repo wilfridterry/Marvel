@@ -9,10 +9,26 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Spinner from "../Spinner/Spinner";
 import "./CharacterList.scss";
 
+const setContent = (process, Component, newItemsLoading) => {
+  switch (process) {
+    case "waiting":
+      return <Spinner />;
+    case "loading":
+      return newItemsLoading ? <Component /> : <Spinner />;
+    case "confirmed":
+      return <Component />;
+    case "error":
+      return <ErrorMessage />;
+    default:
+      throw new Error("Unexpectd process state");
+  }
+};
+
 const CharacterList = (props) => {
-  const { getAllCharacters, loading, error } = useMarvelService();
+  const { getAllCharacters, process, setProcess } =
+    useMarvelService();
   const { resources, newItemsLoading, ended, handleLoadMore } =
-    useLoadingResources(getAllCharacters, 8, 620);
+    useLoadingResources(getAllCharacters, 8, 620, setProcess);
 
   const characterRefs = useRef([]);
 
@@ -36,7 +52,7 @@ const CharacterList = (props) => {
         }}
         onKeyPress={(e) => {
           if (e.key === " " || e.key === "Enter") {
-            props.onCharacterSelected(item.id);
+            props.onCharacterSelected(item);
             focusOnItem(index);
           }
         }}
@@ -47,32 +63,34 @@ const CharacterList = (props) => {
     );
   });
 
-  const list = <div className="CharacterList-Grid">{items}</div>;
-
-  const spinner = loading && !newItemsLoading ? <Spinner /> : null;
-  const errorMessage = error ? <ErrorMessage /> : null;
-
   return (
     <div className="CharacterList">
       <CSSTransition
-        in={spinner ? false : true}
+        in={process === "loading" && !newItemsLoading ? false : true}
         timeout={300}
         classNames="CharacterList-Grid"
         unmountOnExit
       >
-        {list}
+        <div>
+          {setContent(
+            process,
+            () => (
+              <div className="CharacterList-Grid">{items}</div>
+            ),
+            newItemsLoading
+          )}
+
+          <div className="CharacterList-Btn">
+            <Button
+              label="Load more"
+              isLong={true}
+              onClick={handleLoadMore}
+              disabled={newItemsLoading}
+              style={{ display: ended ? "none" : "block" }}
+            />
+          </div>
+        </div>
       </CSSTransition>
-      {spinner}
-      {errorMessage}
-      <div className="CharacterList-Btn">
-        <Button
-          label="Load more"
-          isLong={true}
-          onClick={handleLoadMore}
-          disabled={newItemsLoading}
-          style={{ display: ended ? "none" : "block" }}
-        />
-      </div>
     </div>
   );
 };
