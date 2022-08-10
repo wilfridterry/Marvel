@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const CharacterInfo = (props) => {
   const character = props.character;
-console.log('render info');
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

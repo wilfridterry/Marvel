@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [process, setProcess] = useState("waiting");
 
   const handleRequest = async (params) => {
     const { url, method = "GET", body = null, headers = {} } = params;
@@ -13,6 +14,7 @@ export const useHttp = () => {
     };
 
     setLoading(true);
+    setProcess("loading");
 
     try {
       const response = await fetch(url, {
@@ -33,6 +35,7 @@ export const useHttp = () => {
     } catch (e) {
       setError(e.message);
       setLoading(false);
+      setProcess("error");
 
       throw e;
     }
@@ -42,7 +45,8 @@ export const useHttp = () => {
 
   const clearError = useCallback(() => {
     setError(null);
+    setProcess("loading");
   }, []);
 
-  return { request, loading, error, clearError };
+  return { request, loading, error, clearError, process, setProcess };
 };

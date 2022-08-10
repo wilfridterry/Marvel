@@ -6,11 +6,13 @@ import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import CharacterImage from "../CharacterImage/CharacterImage";
+import setContent from "../../utils/setContent";
 
 const RandomCharacter = () => {
   const [character, setCharacter] = useState(null);
 
-  const { error, loading, getCharacter, clearError } = useMarvelService();
+  const { error, loading, getCharacter, clearError, process, setProcess } =
+    useMarvelService();
 
   useEffect(() => {
     updateChar();
@@ -25,23 +27,19 @@ const RandomCharacter = () => {
 
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
 
-    getCharacter(id).then(handleCharLoaded);
+    getCharacter(id)
+      .then(handleCharLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
   const handleClick = () => {
     updateChar();
   };
 
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const spiner = loading ? <Spinner /> : null;
-  const content =
-    loading || error || !character ? null : <View character={character} />;
 
   return (
     <div className="RandomCharacter">
-      {errorMessage}
-      {spiner}
-      {content}
+      {setContent(process, View, character)}
       <div className="RandomCharacter-Static">
         <div className="RandomCharacter-Title">
           Random character for today! <br />
@@ -59,8 +57,8 @@ const RandomCharacter = () => {
   );
 };
 
-const View = ({ character }) => {
-  const { name, description, thumbnail, homepage, wiki } = character;
+const View = ({ data }) => {
+  const { name, description, thumbnail, homepage, wiki } = data;
 
   return (
     <div className="RandomCharacter-Block">
